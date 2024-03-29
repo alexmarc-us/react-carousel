@@ -1,0 +1,12 @@
+section.carousel {
+    border: 4px solid gray;
+    background-color: gainsboro;
+    width: 50vw; 
+    display: flex;
+}
+
+div.card-container {
+    display: flex;
+    overflow: hidden;
+    flex: 10;
+}

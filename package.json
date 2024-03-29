@@ -1,6 +1,6 @@
 {
   "name": "@alexmarc-us/react-carousel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A reusable carousel component with React.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -47,12 +47,13 @@
     "react": "^18.2.0",
     "rollup": "^4.13.2",
     "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^8.0.5",
     "typescript": "^5.4.3"
   },
   "peerDependencies": {
-    "tslib": "^2.6.2",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "tslib": "^2.6.2"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/alexmarc-us"

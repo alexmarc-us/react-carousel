@@ -1,0 +1,7 @@
+button.arrow {
+    flex: 1;
+    border: none;
+    background-color: inherit;
+    font-size: 2rem;
+    color: gray;
+}

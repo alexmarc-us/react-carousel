@@ -1,0 +1,10 @@
+article.card {
+    min-height: 50px;
+    min-width: 50px;
+    padding: 1rem;
+    border: 2px solid gray;
+    background-color: #ffffff;
+    flex: 2;
+    margin: 1rem;
+    border-radius: 5%;
+}
