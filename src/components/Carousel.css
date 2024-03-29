@@ -1,8 +1,8 @@
 section.carousel {
-    border: 4px solid gray;
-    background-color: gainsboro;
-    width: 50vw; 
+    background-color: #f9f9f9;
+    width: 75vw; 
     display: flex;
+    padding-block: 2rem;
 }
 
 div.card-container {

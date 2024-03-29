@@ -1,7 +1,13 @@
 button.arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 1;
     border: none;
     background-color: inherit;
     font-size: 2rem;
-    color: gray;
+    color: #9b9b9b;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    /* TODO: Click effect */
+    /* TODO: Rounded hover */
 }
