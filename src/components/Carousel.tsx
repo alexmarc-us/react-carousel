@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import Card from "./Card";
 import Arrow from "./Arrow";
@@ -17,8 +17,11 @@ export interface CarouselProps {
   // starting cards
 };
 
-const Carousel = (props: CarouselProps) => {
-  const [cards, setCards] = useState(props.cards || []);
+// TODO: JSDocs for all functions
+function Carousel(props: CarouselProps) {
+  const [cards, setCards] = useState<any[]>(props.cards || []);
+  const cardCount = props.cards?.length || 0;
+  const [targetCard, setTargetCard] = useState<number>(1);
   const cardContainer = useRef<HTMLDivElement>(null);
 
   // TODO: Add new card.
@@ -30,23 +33,41 @@ const Carousel = (props: CarouselProps) => {
   // TODO: Modify existing cards.
   const editCard = (cardChanges = {}) => {};
 
-  const handlePositionChange = (diff = 0) => {
-    if (diff === 1) {
-      const newCards = cards.slice(1);
-      setCards(newCards.concat([cards[0]]));
-    } else if (diff === -1) {
-      const newCards = cards.slice(0, -1);
-      setCards([cards[cards.length - 1]].concat(newCards));
-    } else return;
-  };
+  useEffect(() => {
+    let container;
+    if (cardContainer !== null && cardContainer.current !== null) {
+      container = cardContainer.current;
+    } else {
+      throw 'Error: cardContainer not found.'
+    }
+
+    // Out of upper bounds - reset to the start.
+    if (targetCard > (2 * cardCount)) {
+      container.querySelector<HTMLElement>(`.card:nth-child(${cardCount})`)?.scrollIntoView({behavior: "instant", inline:"start"});
+      setTargetCard(cardCount + 1);
+      return;
+    }
+    
+    // Out of upper bounds - reset to the middle.
+    if (targetCard <= 0) {
+      container.querySelector<HTMLElement>(`.card:nth-child(${1 + cardCount})`)?.scrollIntoView({behavior: "instant", inline:"start"});
+      setTargetCard(cardCount);
+      return;
+    }
+
+    // In-bounds - smooth scroll to the target.
+    container.querySelector<HTMLElement>(`.card:nth-child(${targetCard})`)?.scrollIntoView({behavior: "smooth", inline:"start"});
+
+  }, [targetCard]);
 
   return (
     <section className="carousel">
-      <Arrow direction="left" onClick={() => handlePositionChange(-1)} />
+      <Arrow direction="left" onClick={() => setTargetCard(targetCard - 1)} />
       <div className="card-container" ref={cardContainer}>
-        {  cards.map((card) => <Card key={card} index={card} />) }
+        {/* Render three sets of cards to enable infinite effect. */}
+        { cards.concat(cards).concat(cards).map((card, index) => <Card key={card + index} index={card} />) }
       </div>
-      <Arrow direction="right" onClick={() => handlePositionChange(1)} />
+      <Arrow direction="right" onClick={() => setTargetCard(targetCard + 1)} />
     </section>
   );
 };

@@ -6,7 +6,7 @@ section.carousel {
 }
 
 div.card-container {
-    display: flex;
     overflow: hidden;
     flex: 10;
+    white-space: nowrap;
 }
