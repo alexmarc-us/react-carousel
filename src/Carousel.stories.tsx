@@ -16,5 +16,6 @@ export default meta;
 type Story = StoryObj<typeof Carousel>;
 
 export const Default: Story = {
+  // TODO: Handle children instead of a prop?
   render: () => <Carousel cards={['1','2','3','4']}/>,
 };

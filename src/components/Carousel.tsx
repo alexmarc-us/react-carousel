@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo, ReactNode } from "react";
 
 import Card from "./Card";
 import Arrow from "./Arrow";
@@ -60,12 +60,18 @@ function Carousel(props: CarouselProps) {
 
   }, [targetCard]);
 
+  // Render three sets of cards to enable infinite effect.
+  function renderCards(): ReactNode {
+    return useMemo(() => cards.concat(cards).concat(cards).map((card, index) => (
+      <Card key={card + index} index={card} />
+    )), [cards]);
+  };
+
   return (
     <section className="carousel">
       <Arrow direction="left" onClick={() => setTargetCard(targetCard - 1)} />
       <div className="card-container" ref={cardContainer}>
-        {/* Render three sets of cards to enable infinite effect. */}
-        { cards.concat(cards).concat(cards).map((card, index) => <Card key={card + index} index={card} />) }
+        { renderCards() }
       </div>
       <Arrow direction="right" onClick={() => setTargetCard(targetCard + 1)} />
     </section>
