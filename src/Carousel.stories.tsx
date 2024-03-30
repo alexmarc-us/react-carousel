@@ -4,6 +4,11 @@ import Carousel from './components/Carousel';
 
 const meta: Meta<typeof Carousel> = {
   component: Carousel,
+  argTypes: { 
+    editableCards: { 
+      control: 'boolean' 
+    },
+  },
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -17,5 +22,5 @@ type Story = StoryObj<typeof Carousel>;
 
 export const Default: Story = {
   // TODO: Handle children instead of a prop?
-  render: () => <Carousel cards={['1','2','3','4']}/>,
+  render: (args) => <Carousel {...args} cards={['1','2','3','4']}/>,
 };

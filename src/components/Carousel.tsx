@@ -9,9 +9,9 @@ function moveItem (array: any[], from: number, to: number) {
 }
 
 export interface CarouselProps {
-  cards?: string[]
+  cards: string[];
+  editableCards?: boolean;
   // TODO: Feature toggling via props
-  // editing
   // add
   // remove
   // starting cards
@@ -31,7 +31,13 @@ function Carousel(props: CarouselProps) {
   const handleCardRemove = (cardIndex = -1) => {};
 
   // TODO: Modify existing cards.
-  const editCard = (cardChanges = {}) => {};
+  const editCard = (e: React.FormEvent<HTMLInputElement>, cardIndex: number) => {
+    const target = e.target as HTMLElement;
+    let content = target.innerText;
+    // Empty values in contentEditable elements cause rendering glitches. U+200E is an "invisible" character.
+    if (content.length === 0 || content === '\n') content = '‎';
+    setCards(cards.toSpliced(cardIndex, 1, content));
+  };
 
   useEffect(() => {
     let container;
@@ -62,9 +68,12 @@ function Carousel(props: CarouselProps) {
 
   // Render three sets of cards to enable infinite effect.
   function renderCards(): ReactNode {
-    return useMemo(() => cards.concat(cards).concat(cards).map((card, index) => (
-      <Card key={card + index} index={card} />
-    )), [cards]);
+    return useMemo(() => Array(3).fill(cards.map((card, index) => (
+      <Card 
+        content={card}
+        handleEdit={props.editableCards ? (e) => editCard(e, index) : undefined}
+      />
+    ))).flat(), [cards]);
   };
 
   return (
