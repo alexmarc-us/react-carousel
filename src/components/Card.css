@@ -1,4 +1,5 @@
 article.card {
+    position: relative;
     display: inline-block;
     vertical-align: middle;
     width: calc(33.3% - 3rem);
@@ -16,4 +17,37 @@ article.card {
     margin-block: 1rem;
     scroll-margin-inline: .5rem;
     border-radius: 4%;
+}
+
+article.card button.remove {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: inherit;
+    font-size: 1.5rem;
+    color: #9b9b9b;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+}
+
+article.card:hover button.remove {
+    display: block;
+}
+
+article.card button.ripple {
+    background-position: center;
+    transition: background 0.5s;
+}
+article.card button.ripple:hover {
+    background: #e0e4e4 radial-gradient(circle, transparent 1%, #e0e4e4 1%) center/15000%;
+}
+article.card button.ripple:active {
+    background-color: #c6c9c9;
+    background-size: 100%;
+    transition: background 0s;
 }

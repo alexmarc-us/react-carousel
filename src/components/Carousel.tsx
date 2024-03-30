@@ -11,26 +11,26 @@ function moveItem (array: any[], from: number, to: number) {
 export interface CarouselProps {
   initialCards: string[];
   editableCards?: boolean;
+  removableCards?: boolean;
   // TODO: Feature toggling via props
   // add
-  // remove
-  // starting cards
+  // visible cards
 };
 
 // TODO: JSDocs for all functions
 function Carousel(props: CarouselProps) {
   const [cards, setCards] = useState<any[]>(props.initialCards || []);
-  const cardCount = props.initialCards?.length || 0;
   const [targetCard, setTargetCard] = useState<number>(1);
   const cardContainer = useRef<HTMLDivElement>(null);
 
   // TODO: Add new card.
   const handleCardAdd = (card = {}) => {};
 
-  // TODO: Remove existing card.
-  const handleCardRemove = (cardIndex = -1) => {};
+  const handleCardRemove = (e: React.FormEvent<HTMLInputElement>, cardIndex: number = -1) => {
+    setCards(cards.toSpliced(cardIndex, 1));
+  };
 
-  const editCard = (e: React.FormEvent<HTMLInputElement>, cardIndex: number) => {
+  const handleEditCard = (e: React.FormEvent<HTMLInputElement>, cardIndex: number) => {
     const target = e.target as HTMLElement;
     let content = target.innerText;
     // Empty values in contentEditable elements cause rendering glitches. U+200E is an "invisible" character.
@@ -47,16 +47,16 @@ function Carousel(props: CarouselProps) {
     }
 
     // Out of upper bounds - reset to the start.
-    if (targetCard > (2 * cardCount)) {
-      container.querySelector<HTMLElement>(`.card:nth-child(${cardCount})`)?.scrollIntoView({behavior: "instant", inline:"start"});
-      setTargetCard(cardCount + 1);
+    if (targetCard > (2 * cards.length)) {
+      container.querySelector<HTMLElement>(`.card:nth-child(${cards.length})`)?.scrollIntoView({behavior: "instant", inline:"start"});
+      setTargetCard(cards.length + 1);
       return;
     }
     
     // Out of upper bounds - reset to the middle.
     if (targetCard <= 0) {
-      container.querySelector<HTMLElement>(`.card:nth-child(${1 + cardCount})`)?.scrollIntoView({behavior: "instant", inline:"start"});
-      setTargetCard(cardCount);
+      container.querySelector<HTMLElement>(`.card:nth-child(${1 + cards.length})`)?.scrollIntoView({behavior: "instant", inline:"start"});
+      setTargetCard(cards.length);
       return;
     }
 
@@ -70,7 +70,8 @@ function Carousel(props: CarouselProps) {
     return useMemo(() => Array(3).fill(cards.map((card, index) => (
       <Card 
         content={card}
-        handleEdit={props.editableCards ? (e) => editCard(e, index) : undefined}
+        handleEdit={props.editableCards ? (e) => handleEditCard(e, index) : undefined}
+        handleRemove={props.removableCards? (e) => handleCardRemove(e, index) : undefined}
       />
     ))).flat(), [cards]);
   };
