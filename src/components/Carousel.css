@@ -1,8 +1,11 @@
 section.carousel {
-    background-color: #f9f9f9;
-    width: 75vw; 
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75vw; 
     padding-block: 2rem;
+    padding-inline: 1rem;;
+    background-color: #f9f9f9;
 }
 
 div.card-container {

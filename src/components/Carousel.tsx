@@ -9,7 +9,7 @@ function moveItem (array: any[], from: number, to: number) {
 }
 
 export interface CarouselProps {
-  cards: string[];
+  initialCards: string[];
   editableCards?: boolean;
   // TODO: Feature toggling via props
   // add
@@ -19,8 +19,8 @@ export interface CarouselProps {
 
 // TODO: JSDocs for all functions
 function Carousel(props: CarouselProps) {
-  const [cards, setCards] = useState<any[]>(props.cards || []);
-  const cardCount = props.cards?.length || 0;
+  const [cards, setCards] = useState<any[]>(props.initialCards || []);
+  const cardCount = props.initialCards?.length || 0;
   const [targetCard, setTargetCard] = useState<number>(1);
   const cardContainer = useRef<HTMLDivElement>(null);
 
@@ -30,7 +30,6 @@ function Carousel(props: CarouselProps) {
   // TODO: Remove existing card.
   const handleCardRemove = (cardIndex = -1) => {};
 
-  // TODO: Modify existing cards.
   const editCard = (e: React.FormEvent<HTMLInputElement>, cardIndex: number) => {
     const target = e.target as HTMLElement;
     let content = target.innerText;

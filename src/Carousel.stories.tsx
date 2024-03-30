@@ -22,5 +22,5 @@ type Story = StoryObj<typeof Carousel>;
 
 export const Default: Story = {
   // TODO: Handle children instead of a prop?
-  render: (args) => <Carousel {...args} cards={['1','2','3','4']}/>,
+  render: (args) => <Carousel {...args} initialCards={['1','2','3','4']}/>,
 };
