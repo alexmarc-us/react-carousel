@@ -1,27 +1,29 @@
 article.card {
+    --space-between-cards: .5rem;
+    --card-padding: 1rem;
     position: relative;
     display: inline-block;
     vertical-align: middle;
     width: calc(33.3% - 3rem);
-    min-height: 10rem;
+    min-height: var(--card-height);
     text-align: center;
     text-wrap: wrap;
     overflow-wrap: break-word;
-    padding: 1rem;
+    padding: var(--card-padding);
     box-shadow: 0px 2px 3px 2px #dedede;
     background-color: #ffffff;
-    color: #5b5b5b;
+    color: #552e2e;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2.5rem;
-    margin-inline: .5rem;
+    margin-inline: var(--space-between-cards);
     margin-block: 1rem;
-    scroll-margin-inline: .5rem;
+    scroll-margin-inline: var(--space-between-cards);
     border-radius: 4%;
 }
 
 article.card button.remove {
     position: absolute;
-    display: none;
+    opacity: 0;
     top: 0;
     right: 0;
     width: 40px;
@@ -31,23 +33,24 @@ article.card button.remove {
     background-color: inherit;
     font-size: 1.5rem;
     color: #9b9b9b;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
 }
 
 article.card:hover button.remove {
-    display: block;
+    opacity: 100%;
 }
 
-article.card button.ripple {
-    background-position: center;
-    transition: background 0.5s;
+article.card button.add {
+    position: absolute;
+    top: 0;
+    right: calc(-2 * var(--space-between-cards));
+    border: 0;
+    color: #9b9b9b;
+    height: calc(var(--card-height) + (2 * var(--card-padding)));
+    width: var(--space-between-cards * 2);
+    z-index: 100;
+    opacity: 0;
 }
-article.card button.ripple:hover {
-    background: #e0e4e4 radial-gradient(circle, transparent 1%, #e0e4e4 1%) center/15000%;
-}
-article.card button.ripple:active {
-    background-color: #c6c9c9;
-    background-size: 100%;
-    transition: background 0s;
+
+article.card button.add:hover {
+    opacity: 100%;
 }

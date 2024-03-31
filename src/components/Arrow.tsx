@@ -8,7 +8,7 @@ export interface ArrowProps {
 
 const Arrow = (props: ArrowProps) => {
   return (
-    <button onClick={props.onClick} className="arrow ripple">
+    <button onClick={props.onClick} className="arrow">
       {props.direction === "left" ? "<" : ">"}
     </button>
   );

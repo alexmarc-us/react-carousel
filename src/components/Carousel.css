@@ -12,4 +12,22 @@ div.card-container {
     overflow: hidden;
     flex: 10;
     white-space: nowrap;
+    --card-height: 10rem;
+}
+
+section.carousel button {
+    cursor: pointer;
+    transition: all 0.5s ease;
+    background-position: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+section.carousel button:hover {
+    background-color: #c6c9c9;
+    background: #e0e4e4 radial-gradient(circle, transparent 1%, #e0e4e4 1%) center/15000%;
+}
+
+section.carousel button:active {
+    background-color: #c6c9c9;
+    background-size: 100%;
 }
