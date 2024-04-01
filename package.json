@@ -1,6 +1,6 @@
 {
   "name": "@alexmarc-us/react-carousel",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A reusable carousel component with React.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
