@@ -140,14 +140,14 @@ function Carousel(props: CarouselProps) {
     return useMemo(() => {
       const numberOfDuplicates = visibleCardCount > cards.length ? Math.ceil(visibleCardCount / cards.length) : 2;
       const cardArray = [];
-      for (let index = 1; index <= numberOfDuplicates; index++) {
+      for (let duplicate = 0; duplicate <= numberOfDuplicates; duplicate++) {
         cardArray.push(cards.map((card, cardIndex) => (
           <Card
             content={card}
-            key={`${index},${cardIndex}`}
-            handleEdit={editableCards ? (e) => handleEditCard(e, index) : undefined}
-            handleRemove={removableCards ? (e) => handleCardRemove(e, index) : undefined}
-            handleAdd={addCards ? (e) => handleCardAdd(e, index) : undefined}
+            key={cardIndex + (cards.length * duplicate)}
+            handleEdit={editableCards ? (e) => handleEditCard(e, cardIndex) : undefined}
+            handleRemove={removableCards ? (e) => handleCardRemove(e, cardIndex) : undefined}
+            handleAdd={addCards ? (e) => handleCardAdd(e, cardIndex) : undefined}
             visibleCardCount={visibleCardCount}
           />
         )));
