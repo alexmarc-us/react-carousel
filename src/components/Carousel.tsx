@@ -5,14 +5,41 @@ import Arrow from './Arrow';
 import './Carousel.css';
 
 export interface CarouselProps {
+  /**
+   * Determines if the functionality to add new cards to the carousel is enabled.
+   * @type {boolean}
+   */
   addCards?: boolean;
+
+  /**
+   * Determines if the cards within the carousel can be edited.
+   * @type {boolean}
+   */
   editableCards?: boolean;
+
+  /**
+   * An array of strings representing the initial set of cards to be displayed in the carousel.
+   * @type {string[]}
+   */
   initialCards: string[];
+
+  /**
+   * Determines if the functionality to remove cards from the carousel is enabled.
+   * @type {boolean}
+   */
   removableCards?: boolean;
+
+  /**
+   * Specifies the number of cards visible at any given time in the carousel.
+   * @type {number}
+   */
   visibleCardCount?: number;
 };
 
-// TODO: JSDocs for all functions
+/**
+ * Represents a carousel component with customizable card operations.
+ * @param {CarouselProps} props - The properties passed to the carousel component.
+ */
 function Carousel(props: CarouselProps) {
   const {
     addCards = false,
@@ -26,6 +53,12 @@ function Carousel(props: CarouselProps) {
   const [targetCard, setTargetCard] = useState<number>(1); // Uses 1-based counting to align with "nth-of-type" selector.
   const cardContainer = useRef<HTMLDivElement>(null);
 
+  /**
+   * Scrolls the specified card to the start of the container.
+   * @param {string} selector - The CSS selector for the target card.
+   * @param {ScrollBehavior} [behavior='instant'] - The scroll behavior (e.g., 'smooth', 'instant').
+   * @throws Will throw an error if the card container is not found.
+   */
   function scrollCardToStart(selector: string, behavior: ScrollBehavior = 'instant') {
     let container;
     if (cardContainer !== null && cardContainer.current !== null) {
@@ -37,14 +70,29 @@ function Carousel(props: CarouselProps) {
     container.querySelector<HTMLElement>(selector)?.scrollIntoView({ behavior, inline: 'start' });
   };
 
+  /**
+   * Adds a new card at the specified index.
+   * @param {React.FormEvent<HTMLInputElement>} e - The event object.
+   * @param {number} cardIndex - The index where the new card will be added as the next card.
+   */
   function handleCardAdd(e: React.FormEvent<HTMLInputElement>, cardIndex: number) {
     setCards(cards.toSpliced(cardIndex + 1, 0, 'new'));
   };
 
+  /**
+   * Removes the card at the specified index.
+   * @param {React.FormEvent<HTMLInputElement>} e - The event object.
+   * @param {number} cardIndex - The index of the card to be removed.
+   */
   function handleCardRemove(e: React.FormEvent<HTMLInputElement>, cardIndex: number) {
     setCards(cards.toSpliced(cardIndex, 1));
   };
 
+  /**
+   * Edits the card at the specified index with the provided content.
+   * @param {React.FormEvent<HTMLInputElement>} e - The event object.
+   * @param {number} cardIndex - The index of the card to be edited.
+   */
   function handleEditCard(e: React.FormEvent<HTMLInputElement>, cardIndex: number) {
     const target = e.target as HTMLElement;
     let content = target.innerText;
@@ -53,6 +101,10 @@ function Carousel(props: CarouselProps) {
     setCards(cards.toSpliced(cardIndex, 1, content));
   };
 
+  /**
+   * Handles the click event on an arrow button, updating the target card index.
+   * @param {number} change - The change in index (positive for next, negative for previous).
+   */
   function handleArrowClick(change: number) {
     const newTargetCard = targetCard + change;
 
@@ -73,11 +125,17 @@ function Carousel(props: CarouselProps) {
     setTargetCard(newTargetCard);
   }
 
+  /**
+   * Uses an effect to scroll to the target card when its index changes.
+   */
   useEffect(() => {
     scrollCardToStart(`.card:nth-of-type(${targetCard})`, 'smooth')
   }, [targetCard]);
 
-  // Render multiple sets of cards to enable infinite effect.
+  /**
+   * Renders the cards in the carousel, duplicated for an infinite scrolling effect.
+   * @returns {ReactNode} The cards to be displayed in the carousel.
+   */
   function renderCards(): ReactNode {
     return useMemo(() => Array(2).fill(cards.map((card, index) => (
       <Card
