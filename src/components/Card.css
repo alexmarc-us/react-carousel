@@ -4,7 +4,6 @@ article.card {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    width: calc(33.3% - 3rem);
     min-height: var(--card-height);
     text-align: center;
     text-wrap: wrap;

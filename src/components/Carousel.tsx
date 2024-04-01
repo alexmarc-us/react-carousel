@@ -9,8 +9,7 @@ export interface CarouselProps {
   editableCards?: boolean;
   initialCards: string[];
   removableCards?: boolean;
-  // TODO: Feature toggling via props
-  // visible cards
+  visibleCardCount?: number;
 };
 
 // TODO: JSDocs for all functions
@@ -18,12 +17,13 @@ function Carousel(props: CarouselProps) {
   const {
     addCards = false,
     editableCards = false,
-    initialCards = ['1', '2', '3', '4'],
     removableCards = false,
+    visibleCardCount = 3,
+    initialCards = Array.from({length: visibleCardCount + 1}, (_, i) => i + 1), // Fills the array with test cards.
   } = props;
 
   const [cards, setCards] = useState<any[]>(initialCards);
-  const [targetCard, setTargetCard] = useState<number>(1);
+  const [targetCard, setTargetCard] = useState<number>(1); // Uses 1-based counting to align with "nth-of-type" selector.
   const cardContainer = useRef<HTMLDivElement>(null);
 
   function scrollCardToStart(selector: string, behavior: ScrollBehavior = 'instant') {
@@ -53,45 +53,50 @@ function Carousel(props: CarouselProps) {
     setCards(cards.toSpliced(cardIndex, 1, content));
   };
 
-  useEffect(() => {
+  function handleArrowClick(change: number) {
+    const newTargetCard = targetCard + change;
+
     // Out of upper bounds - reset to the start.
-    if (targetCard > (2 * cards.length)) {
-      scrollCardToStart(`.card:nth-of-type(${cards.length})`);
-      setTargetCard(cards.length + 1);
+    if (newTargetCard > cards.length + 1) {
+      scrollCardToStart(`.card:nth-of-type(1)`);
+      setTargetCard(2);
       return;
     }
 
-    // Out of upper bounds - reset to the middle.
-    if (targetCard <= 0) {
-      scrollCardToStart(`.card:nth-of-type(${1 + cards.length})`);
+    // Out of lower bounds - reset to the middle.
+    if (newTargetCard <= 0) {
+      scrollCardToStart(`.card:nth-of-type(${cards.length + 1})`);
       setTargetCard(cards.length);
       return;
     }
 
-    // In-bounds - smooth scroll to the target.
-    scrollCardToStart(`.card:nth-of-type(${targetCard})`, 'smooth')
+    setTargetCard(newTargetCard);
+  }
 
+  useEffect(() => {
+    scrollCardToStart(`.card:nth-of-type(${targetCard})`, 'smooth')
   }, [targetCard]);
 
-  // Render three sets of cards to enable infinite effect.
+  // Render multiple sets of cards to enable infinite effect.
   function renderCards(): ReactNode {
-    return useMemo(() => Array(3).fill(cards.map((card, index) => (
+    return useMemo(() => Array(2).fill(cards.map((card, index) => (
       <Card
         content={card}
         handleEdit={editableCards ? (e) => handleEditCard(e, index) : undefined}
         handleRemove={removableCards ? (e) => handleCardRemove(e, index) : undefined}
         handleAdd={addCards ? (e) => handleCardAdd(e, index) : undefined}
+        visibleCardCount={visibleCardCount}
       />
     ))).flat(), [cards]);
   };
 
   return (
     <section className="carousel">
-      <Arrow direction="left" onClick={() => setTargetCard(targetCard - 1)} />
+      <Arrow direction="left" onClick={() => handleArrowClick(-1)} />
       <div className="card-container" ref={cardContainer}>
         {renderCards()}
       </div>
-      <Arrow direction="right" onClick={() => setTargetCard(targetCard + 1)} />
+      <Arrow direction="right" onClick={() => handleArrowClick(+1)} />
     </section>
   );
 };
