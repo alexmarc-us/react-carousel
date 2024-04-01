@@ -137,16 +137,25 @@ function Carousel(props: CarouselProps) {
    * @returns {ReactNode} The cards to be displayed in the carousel.
    */
   function renderCards(): ReactNode {
-    return useMemo(() => Array(2).fill(cards.map((card, index) => (
-      <Card
-        content={card}
-        handleEdit={editableCards ? (e) => handleEditCard(e, index) : undefined}
-        handleRemove={removableCards ? (e) => handleCardRemove(e, index) : undefined}
-        handleAdd={addCards ? (e) => handleCardAdd(e, index) : undefined}
-        key={index}
-        visibleCardCount={visibleCardCount}
-      />
-    ))).flat(), [cards]);
+    return useMemo(() => {
+      const numberOfDuplicates = visibleCardCount > cards.length ? Math.ceil(visibleCardCount / cards.length) : 2;
+      const cardArray = [];
+      for (let index = 1; index <= numberOfDuplicates; index++) {
+        cardArray.push(cards.map((card, cardIndex) => (
+          <Card
+            content={card}
+            key={`${index},${cardIndex}`}
+            handleEdit={editableCards ? (e) => handleEditCard(e, index) : undefined}
+            handleRemove={removableCards ? (e) => handleCardRemove(e, index) : undefined}
+            handleAdd={addCards ? (e) => handleCardAdd(e, index) : undefined}
+            visibleCardCount={visibleCardCount}
+          />
+        )));
+      }
+
+      return cardArray.flat();
+    },
+    [cards]);
   };
 
   return (
