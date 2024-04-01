@@ -51,6 +51,7 @@ const Card = (props: CardProps) => {
       {handleRemove && <button className="remove" onClick={handleRemove}>x</button>}
       
       <p
+        aria-label={`Card content${!!handleEdit && ', with editable text'}`}
         contentEditable={!!handleEdit} 
         suppressContentEditableWarning={true}
         onBlur={handleEdit && handleEdit}

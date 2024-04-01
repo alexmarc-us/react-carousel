@@ -21,7 +21,7 @@ export interface ArrowProps {
  */
 const Arrow = (props: ArrowProps) => {
   return (
-    <button onClick={props.onClick} className="arrow">
+    <button onClick={props.onClick} className="arrow" aria-label={props.direction === "left" ? "Navigate left" : "Navigate right"}>
       {props.direction === "left" ? "<" : ">"}
     </button>
   );

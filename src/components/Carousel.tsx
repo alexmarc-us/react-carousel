@@ -21,7 +21,7 @@ export interface CarouselProps {
    * An array of strings representing the initial set of cards to be displayed in the carousel.
    * @type {string[]}
    */
-  initialCards: string[];
+  initialCards?: string[];
 
   /**
    * Determines if the functionality to remove cards from the carousel is enabled.
@@ -76,7 +76,7 @@ function Carousel(props: CarouselProps) {
    * @param {number} cardIndex - The index where the new card will be added as the next card.
    */
   function handleCardAdd(e: React.FormEvent<HTMLInputElement>, cardIndex: number) {
-    setCards(cards.toSpliced(cardIndex + 1, 0, 'new'));
+    setCards([...cards.slice(0, cardIndex + 1), 'new', ...cards.slice(cardIndex + 1)]);
   };
 
   /**
@@ -143,6 +143,7 @@ function Carousel(props: CarouselProps) {
         handleEdit={editableCards ? (e) => handleEditCard(e, index) : undefined}
         handleRemove={removableCards ? (e) => handleCardRemove(e, index) : undefined}
         handleAdd={addCards ? (e) => handleCardAdd(e, index) : undefined}
+        key={index}
         visibleCardCount={visibleCardCount}
       />
     ))).flat(), [cards]);
