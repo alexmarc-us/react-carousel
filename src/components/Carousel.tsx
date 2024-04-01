@@ -77,6 +77,7 @@ function Carousel(props: CarouselProps) {
    */
   function handleCardAdd(e: React.FormEvent<HTMLInputElement>, cardIndex: number) {
     setCards([...cards.slice(0, cardIndex + 1), 'new', ...cards.slice(cardIndex + 1)]);
+    setTargetCard(1); // TODO: Retain the current scroll position when the `cards` array changes.
   };
 
   /**
@@ -86,6 +87,7 @@ function Carousel(props: CarouselProps) {
    */
   function handleCardRemove(e: React.FormEvent<HTMLInputElement>, cardIndex: number) {
     setCards(cards.toSpliced(cardIndex, 1));
+    setTargetCard(1); // TODO: Retain the current scroll position when the `cards` array changes.
   };
 
   /**

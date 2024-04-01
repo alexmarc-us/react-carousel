@@ -16,7 +16,6 @@ export default meta;
 type Story = StoryObj<typeof Carousel>;
 
 export const Default: Story = {
-  // TODO: Handle children instead of a prop?
   // TODO: Fix controls setting props reload
   render: (args) => <Carousel {...args} />,
 };
