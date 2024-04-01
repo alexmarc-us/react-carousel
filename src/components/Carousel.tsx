@@ -157,7 +157,7 @@ function Carousel(props: CarouselProps) {
 
       return cardArray.flat();
     },
-    [cards]);
+    [cards, props]);
   };
 
   return (

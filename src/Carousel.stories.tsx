@@ -3,12 +3,18 @@ import React from 'react';
 import Carousel from './components/Carousel';
 
 const meta: Meta<typeof Carousel> = {
+  title: 'Example/Carousel', // Specify the path in the storybook UI
   component: Carousel,
+  argTypes: {
+    addCards: { control: 'boolean' },
+    editableCards: { control: 'boolean' },
+    initialCards: { control: 'array' },
+    removableCards: { control: 'boolean' },
+    visibleCardCount: { control: 'number' },
+  },
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs']
 };
 
@@ -16,6 +22,12 @@ export default meta;
 type Story = StoryObj<typeof Carousel>;
 
 export const Default: Story = {
-  // TODO: Fix controls setting props reload
+  args: {
+    addCards: false,
+    editableCards: false,
+    initialCards: ['1', '2', '3', '4'],
+    removableCards: false,
+    visibleCardCount: 3,
+  },
   render: (args) => <Carousel {...args} />,
 };
