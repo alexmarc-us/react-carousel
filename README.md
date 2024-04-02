@@ -9,6 +9,9 @@ The React Carousel component is a customizable carousel UI library designed for 
 - **Customizable:** Control features such as card addition, removal, and editing to fit your project's needs.
 
 ## Demo
+The full Storybook demo environment is available at [https://alexmarc-us.github.io/react-carousel/](https://alexmarc-us.github.io/react-carousel/).
+
+Here is a brief recording of react-carousel's main features:
 [demo.webm](https://github.com/alexmarc-us/react-carousel/assets/4584765/5b6cb665-7c84-4847-a11f-d21e344e69e6)
 
 ## Installation
